@@ -4,6 +4,7 @@ var LibraryView = Backbone.View.extend({
   tagName: "table",
 
   initialize: function() {
+    console.log(this.collection);
     this.render();
   },
 
