@@ -17,11 +17,11 @@ var LibraryView = Backbone.View.extend({
           //console.log(song);
           return new LibraryEntryView({model: song}).render();
         })
-      );
-      
-  },
+      );     
+  }
+/*  ,
   add: function(flag) {
     return render(flag);
-  }
+  }*/
 
 });

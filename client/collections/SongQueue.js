@@ -2,14 +2,20 @@
 var SongQueue = Songs.extend({
 
   initialize: function(){
-   //becky: something here because app spec is expecting 
+    //'Add' event is triggered from somewhere else
+    this.on('add', this.playFirst, this);
+    this.on('ended', this.playNext, this);
   },
-  //model: SongModel
-  // ,
-  // enqueueSong: function() {
-  //   console.log("called");
-  // }
+  model: SongModel,
 
+  playFirst: function() {
+    this.at(0).play(); 
+  },
+
+  playNext: function(){
+    this.shift();
+    this.playFirst();
+  }
 });
 
 //http://backbonejs.org/#Model-Collections

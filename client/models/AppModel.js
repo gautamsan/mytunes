@@ -1,6 +1,6 @@
 // AppModel.js - Defines a backbone model class for the whole app.
 var AppModel = Backbone.Model.extend({
-
+  
   initialize: function(params){
     this.set('currentSong', new SongModel());
     this.set('songQueue', new SongQueue());
@@ -19,10 +19,26 @@ var AppModel = Backbone.Model.extend({
 
     params.library.on('enqueue', function(song){
       //collection.add (http://backbonejs.org/#Model-Collections)
-      this.get('songQueue').add(song);
-
+      this.get('songQueue').add(song); //'add' event is triggered by Backbone
     }, this);
 
-  }
+    params.library.on('dequeue', function(song){
+      //collection.remove (http://backbonejs.org/#Model-Collections)
+      var currentSongQueue = this.get('songQueue');
+      if(currentSongQueue.length <= 1) {
+        this.set('currentSong', null); //stop the song
+      } else if(song === currentSongQueue.at(0)) {
+        currentSongQueue.shift(); 
+        currentSongQueue.at(0).play();          
+      }
+      currentSongQueue.remove(song);
+    }, this);
 
+/*    this.get('songQueue').on('stopped', function(song){
+      //collection.remove (http://backbonejs.org/#Model-Collections)
+      this.set('currentSong', null);
+    }, this);*/
+
+    //http://www.igloolab.com/downloads/backbone-cheatsheet.pdf
+  }
 });
